@@ -2,8 +2,10 @@
 #include <iostream>
 #include <list>
 
-#define Xtablero 13
-#define Ytablero 7
+#define Tamañotablero 3
 
-void Createtablero(char tablero[Ytablero][Xtablero]);
-void RenderTablero(char tablero[Ytablero][Xtablero]);
+
+void Createtablero(char tablero[Tamañotablero][Tamañotablero]);
+void RenderTablero(char tablero[Tamañotablero][Tamañotablero]);
+bool ComprobacionVictoria(char tablero[Tamañotablero][Tamañotablero]);
+void gamePlay(char tablero[Tamañotablero][Tamañotablero]);

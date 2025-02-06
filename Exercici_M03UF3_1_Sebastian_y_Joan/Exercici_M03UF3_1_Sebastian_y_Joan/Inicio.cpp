@@ -2,13 +2,12 @@
 #include <string>
 #include "GamePlay.h"
 
-void pantallaInicio() {
+void pantallaInicio(char tablero[Tamañotablero][Tamañotablero]) {
 
 	short opcio;
 
 	std::string nombreArchivo;
 
-	char tablero[Ytablero][Xtablero];
 
 
 	std::cout << "---------- Tres en ratlla ----------" << std::endl;

@@ -4,7 +4,11 @@
 
 
 void main() {
-	char tablero[Ytablero][Xtablero];
-	pantallaInicio();
+	char tablero[Tamañotablero][Tamañotablero];
+	pantallaInicio(tablero);
+
+	gamePlay(tablero);
+	
+	RenderTablero(tablero);
 
 }
