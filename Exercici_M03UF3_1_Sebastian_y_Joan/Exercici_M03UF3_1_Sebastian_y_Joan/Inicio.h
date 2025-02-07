@@ -1,3 +1,3 @@
 #pragma once
 #include "GamePlay.h"
-void pantallaInicio(char tablero[Tamañotablero][Tamañotablero]);
+void pantallaInicio(char tablero[TAMAÑO_TABLERO][TAMAÑO_TABLERO], bool& gameOver);

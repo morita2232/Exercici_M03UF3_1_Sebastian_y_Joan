@@ -4,11 +4,12 @@
 
 
 void main() {
-	char tablero[Tamañotablero][Tamañotablero];
-	pantallaInicio(tablero);
+	char tablero[TAMAÑO_TABLERO][TAMAÑO_TABLERO];
 
-	gamePlay(tablero);
-	
-	RenderTablero(tablero);
+	bool gameOver = false;
+
+	pantallaInicio(tablero, gameOver);
+
+	gamePlay(tablero, gameOver);
 
 }

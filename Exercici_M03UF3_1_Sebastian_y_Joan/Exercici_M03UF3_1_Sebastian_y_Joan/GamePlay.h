@@ -1,11 +1,13 @@
 #pragma once
 #include <iostream>
 #include <list>
+#include <string>
+#include <fstream>
 
-#define Tamañotablero 3
+#define TAMAÑO_TABLERO 3
 
 
-void Createtablero(char tablero[Tamañotablero][Tamañotablero]);
-void RenderTablero(char tablero[Tamañotablero][Tamañotablero]);
-bool ComprobacionVictoria(char tablero[Tamañotablero][Tamañotablero]);
-void gamePlay(char tablero[Tamañotablero][Tamañotablero]);
+void Createtablero(char tablero[TAMAÑO_TABLERO][TAMAÑO_TABLERO]);
+void RenderTablero(char tablero[TAMAÑO_TABLERO][TAMAÑO_TABLERO]);
+void ComprobacionVictoria(char tablero[TAMAÑO_TABLERO][TAMAÑO_TABLERO], short& ganador);
+void gamePlay(char tablero[TAMAÑO_TABLERO][TAMAÑO_TABLERO], bool& gameOver);
