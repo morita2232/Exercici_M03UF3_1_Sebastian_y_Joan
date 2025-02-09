@@ -38,9 +38,9 @@ void pantallaInicio(char tablero[TAMAÑO_TABLERO][TAMAÑO_TABLERO], bool& gameOver
 
 			gameOver = false;
 
-			Createtablero(tablero);
+			createTablero(tablero);
 
-			RenderTablero(tablero);
+			renderTablero(tablero);
 
 			choice = true;
 
@@ -62,30 +62,41 @@ void pantallaInicio(char tablero[TAMAÑO_TABLERO][TAMAÑO_TABLERO], bool& gameOver
 
 			std::cout << std::endl;	
 
-			loadFile.open(nombreArchivo + ".tictacsave");
-
-			if (loadFile.is_open()) {
-				std::cout << "Cargando partida: " << nombreArchivo << std::endl;
-
-				system("pause");
+			if (nombreArchivo == "menu" || nombreArchivo == "Menu" || nombreArchivo == "MENU") {
 				system("cls");
-
-				Createtablero(tablero);
-
-				while (std::getline(loadFile, caracter)) {
-					int j = 0;
-					for (int i = 0; i < TAMAÑO_TABLERO; i++) {
-						tablero[j][i] = caracter[i];
-					}
-					j++;
-				}
-
-
+				pantallaInicio(tablero,gameOver);
 			}
+			else {
+				do {
+					loadFile.open(nombreArchivo + ".tictacsave");
+					if (loadFile.is_open()) {
+						std::cout << "Cargando partida: " << nombreArchivo << std::endl;
 
-			RenderTablero(tablero);
-			choice = true;
+						system("pause");
+						system("cls");
 
+						createTablero(tablero);
+
+						int j = 0;
+
+						while (std::getline(loadFile, caracter)) {
+							for (int i = 0; i < TAMAÑO_TABLERO; i++) {
+								tablero[j][i] = caracter[i];
+							}
+							j++;
+						}
+
+						loadFile.close();
+						renderTablero(tablero);
+					}
+					else {
+						std::cout << "Archivo no encontrado, dame otro nombre->";
+						std::cin >> nombreArchivo;
+					}
+				} while (!choice);
+
+				choice = true;
+			}
 
 			break;
 

@@ -1,11 +1,11 @@
 #include "GamePlay.h"
+#include "Inicio.h"
 
 //TO DO
-//true false
-//nombre funciones
+//tablero lleno -> ya esta, nuevo problema, peta porque la ia ya no puede colocar pieza :p
 
 
-void Createtablero(char tablero[TAMAÑO_TABLERO][TAMAÑO_TABLERO]) {
+void createTablero(char tablero[TAMAÑO_TABLERO][TAMAÑO_TABLERO]) {
     for (int i = 0; i < TAMAÑO_TABLERO; i++) {
         for (int j = 0; j < TAMAÑO_TABLERO; j++) {
             tablero[i][j] = ' ';
@@ -14,7 +14,7 @@ void Createtablero(char tablero[TAMAÑO_TABLERO][TAMAÑO_TABLERO]) {
 }
 
 
-void RenderTablero(char tablero[TAMAÑO_TABLERO][TAMAÑO_TABLERO]) {
+void renderTablero(char tablero[TAMAÑO_TABLERO][TAMAÑO_TABLERO]) {
     for (int i = 0; i < TAMAÑO_TABLERO; i++) {
         std::cout << "-------------\n";
         for (int j = 0; j < TAMAÑO_TABLERO; j++) {
@@ -26,57 +26,96 @@ void RenderTablero(char tablero[TAMAÑO_TABLERO][TAMAÑO_TABLERO]) {
     
 }
 
-void ComprobacionVictoria(char tablero[TAMAÑO_TABLERO][TAMAÑO_TABLERO], short& ganador) {
-    // true es Jugador y false la IA
-    //filas y columnas
+void comprobacionVictoria(char tablero[TAMAÑO_TABLERO][TAMAÑO_TABLERO], bool& ganador) {
+    int contador = 0;
+    bool empate = false;
+    
+    int board_size = TAMAÑO_TABLERO * TAMAÑO_TABLERO;
+
+    contador = 0;
     for (int i = 0; i < TAMAÑO_TABLERO; i++) {
-        if (tablero[i][0] != ' ' && tablero[i][0] == tablero[i][1] && tablero[i][1] == tablero[i][2]) {
-            if (tablero[i][0] == 'X') {
-                ganador = 1;
+        for (int j = 0; j < TAMAÑO_TABLERO; j++) {
+            if (tablero[j][i] == 'X' || tablero[j][i] == 'O') {
+                contador++;
+                std::cout << "DEBUG: posicion " << j << ", " << i << ": " << tablero[j][i] << std::endl;
+            }
+        }
+    }
+
+    std::cout << "DEBUG: contador-> " << contador << std::endl;
+    std::cout << "DEBUG: size-> " << board_size << std::endl;
+
+    if (contador == board_size) {
+        empate = true;
+    }
+
+    if (empate == true) {
+        std::cout << "Empate!, reiniciando partida" << std::endl;
+
+        system("pause");
+        system("cls");
+
+        createTablero(tablero);
+
+    }
+    
+
+    else if (empate == false) {
+         //true es Jugador y false la IA
+        //filas y columnas
+        for (int i = 0; i < TAMAÑO_TABLERO; i++) {
+            if (tablero[i][0] != ' ' && tablero[i][0] == tablero[i][1] && tablero[i][1] == tablero[i][2]) {
+                if (tablero[i][0] == 'X') {
+                    ganador = true;
+                }
+                else {
+                    ganador = false;
+                }
+            }
+            else if (tablero[0][i] != ' ' && tablero[0][i] == tablero[1][i] && tablero[1][i] == tablero[2][i]) {
+                if (tablero[0][i] == 'X') {
+                    ganador = true;
+                }
+                else {
+                    ganador = false;
+                }
+            }
+        }
+        //Diagonales
+        if (tablero[0][0] != ' ' && tablero[0][0] == tablero[1][1] && tablero[1][1] == tablero[2][2]) {
+            if (tablero[0][0] == 'X') {
+                ganador = true;
             }
             else {
-                ganador = 0;
+                ganador = false;
             }
         }
-        else if (tablero[0][i] != ' ' && tablero[0][i] == tablero[1][i] && tablero[1][i] == tablero[2][i]) {
-            if (tablero[0][i] == 'X') {
-                ganador =  1;
+        else if (tablero[2][0] != ' ' && tablero[2][0] == tablero[1][1] && tablero[1][1] == tablero[0][2]) {
+            if (tablero[2][0] == 'X') {
+                ganador = true;
             }
             else {
-                ganador = 0;
+                ganador = false;
             }
         }
-    }
-    //Diagonales
-    if (tablero[0][0] != ' ' && tablero[0][0] == tablero[1][1] && tablero[1][1] == tablero[2][2]) {
-        if (tablero[0][0] == 'X') {
-            ganador = 1;
-        }
-        else {
-            ganador = 0;
-        }
-    }
-    else if (tablero[2][0] != ' ' && tablero[2][0] == tablero[1][1] && tablero[1][1] == tablero[0][2]) {
-        if (tablero[2][0] == 'X') {
-            ganador = 1;
-        }
-        else {
-            ganador = 0;
-        }
-    }
+   }
 }
 
 void gamePlay(char tablero[TAMAÑO_TABLERO][TAMAÑO_TABLERO], bool& gameOver) {
 
-    short ganador = 2;
+    bool ganador;
+    bool eleccion_archivo = false;
     short posx, posy;
     char input = 0;
+    char sobreEscribir;
     std::string nameFile;
 
     while (!gameOver) {
         srand(time(NULL));
 
         input = 0;
+
+        //std::cout << TAMAÑO_TABLERO * TAMAÑO_TABLERO << std::endl;
 
         std::cout << "Tu turno Jugador" << std::endl;
         std::cout << "Dame una posicion en x, y (ej. 0 2): ";
@@ -105,24 +144,57 @@ void gamePlay(char tablero[TAMAÑO_TABLERO][TAMAÑO_TABLERO], bool& gameOver) {
                 std::cout << "Como quieres que se llame al archivo??" << std::endl;
                 std::cin >> nameFile;
 
-                std::ofstream saveFile;
+                do {
+                    if (nameFile == "menu" || nameFile == "Menu" || nameFile == "MENU") {
+                        std::cout << "No puedes escoger ese nombre, escoge otro ->";
+                        std::cin >> nameFile;
+                    } 
 
-                saveFile.open(nameFile + ".tictacsave", std::ios::out | std::ios::trunc);
+                    else {
+                        std::string archivoExistente = nameFile + ".tictacsave";
 
-                if (saveFile.is_open()) {
-                    for (int i = 0; i < TAMAÑO_TABLERO; i++) {
-                        for (int j = 0; j < TAMAÑO_TABLERO; j++) {
-                            saveFile << tablero[i][j];
+                        std::ifstream check(archivoExistente);
+
+                        if (check.is_open()) {
+                            check.close();
+
+                            std::cout << "Este archivo ya existe, quieres sobreescribirlo? (y/n)" << std::endl;
+                            std::cin >> sobreEscribir;
                         }
-                        //std::cout << "\n";
-                    }
-                }
-                else {
-                    std::cout << "hubo un error" << std::endl;
-                }
-                saveFile.close();
-                gameOver = true;
-            }
+                        if (sobreEscribir != 'y' && sobreEscribir != 'Y') {
+                            std::cout << "Dame otro nombre" << std::endl;
+                            std::cin >> nameFile;
+                        }
+   
+                            std::ofstream saveFile;
+
+                            saveFile.open(nameFile + ".tictacsave", std::ios::out | std::ios::trunc);
+
+                            if (saveFile.is_open()) {
+                                for (int i = 0; i < TAMAÑO_TABLERO; i++) {
+                                    for (int j = 0; j < TAMAÑO_TABLERO; j++) {
+                                        saveFile << tablero[i][j];
+                                    }
+                                    saveFile << "\n";
+                                }
+                                saveFile.close();
+
+                                std::cout << "Volviendo al menu principal!" << std::endl;
+
+                                eleccion_archivo = true;
+
+                                system("pause");
+                                system("cls");
+
+                                pantallaInicio(tablero, gameOver);
+                            } 
+                            else {
+                                std::cout << "hubo un error" << std::endl;
+                            } 
+                      }
+                    }while (!eleccion_archivo);
+                    gameOver = true;
+                } 
 
             else if (input == 'n' || input == 'N') {
 
@@ -131,21 +203,21 @@ void gamePlay(char tablero[TAMAÑO_TABLERO][TAMAÑO_TABLERO], bool& gameOver) {
                 system("pause");
                 system("cls");
 
-                ComprobacionVictoria(tablero, ganador);
+                comprobacionVictoria(tablero, ganador);
 
-                if (ganador == 0) {
+                if (ganador == false) {
                     std::cout << "Jugador... Has Perdido!!!" << std::endl;
                     gameOver = true;
                 }
 
-                else if (ganador == 1) {
+                else if (ganador == true) {
                     std::cout << "Jugador... Has Ganado!!!" << std::endl;
                     gameOver = true;
                 }
+                renderTablero(tablero);
 
-                RenderTablero(tablero);
 
-            }
-        }
+            } 
+        } 
     }
 }

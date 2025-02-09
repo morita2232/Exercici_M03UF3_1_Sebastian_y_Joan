@@ -7,7 +7,7 @@
 #define TAMAÑO_TABLERO 3
 
 
-void Createtablero(char tablero[TAMAÑO_TABLERO][TAMAÑO_TABLERO]);
-void RenderTablero(char tablero[TAMAÑO_TABLERO][TAMAÑO_TABLERO]);
-void ComprobacionVictoria(char tablero[TAMAÑO_TABLERO][TAMAÑO_TABLERO], short& ganador);
+void createTablero(char tablero[TAMAÑO_TABLERO][TAMAÑO_TABLERO]);
+void renderTablero(char tablero[TAMAÑO_TABLERO][TAMAÑO_TABLERO]);
+void comprobacionVictoria(char tablero[TAMAÑO_TABLERO][TAMAÑO_TABLERO], bool& ganador);
 void gamePlay(char tablero[TAMAÑO_TABLERO][TAMAÑO_TABLERO], bool& gameOver);
