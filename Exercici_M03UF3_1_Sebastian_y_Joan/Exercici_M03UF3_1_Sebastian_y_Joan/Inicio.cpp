@@ -6,6 +6,7 @@ void pantallaInicio(char tablero[TAMAÑO_TABLERO][TAMAÑO_TABLERO], bool& gameOver
 
 	short opcio = 0;
 
+
 	bool choice = false;
 
 	std::string nombreArchivo, caracter;
@@ -13,6 +14,8 @@ void pantallaInicio(char tablero[TAMAÑO_TABLERO][TAMAÑO_TABLERO], bool& gameOver
 	std::ifstream loadFile(nombreArchivo + ".tictacsave");
 
 	do {
+
+		gameOver = false;
 
 		std::cout << "---------- Tres en ratlla ----------" << std::endl;
 
@@ -41,6 +44,8 @@ void pantallaInicio(char tablero[TAMAÑO_TABLERO][TAMAÑO_TABLERO], bool& gameOver
 			createTablero(tablero);
 
 			renderTablero(tablero);
+
+			gamePlay(tablero, gameOver);
 
 			choice = true;
 
@@ -88,6 +93,11 @@ void pantallaInicio(char tablero[TAMAÑO_TABLERO][TAMAÑO_TABLERO], bool& gameOver
 
 						loadFile.close();
 						renderTablero(tablero);
+
+						gamePlay(tablero, gameOver);
+
+						choice = true;
+
 					}
 					else {
 						std::cout << "Archivo no encontrado, dame otro nombre->";
@@ -95,12 +105,14 @@ void pantallaInicio(char tablero[TAMAÑO_TABLERO][TAMAÑO_TABLERO], bool& gameOver
 					}
 				} while (!choice);
 
-				choice = true;
 			}
 
 			break;
 
 		case 3:
+
+			std::cout << std::endl;
+
 			std::cout << "Adeu!" << std::endl;
 
 			choice = true;

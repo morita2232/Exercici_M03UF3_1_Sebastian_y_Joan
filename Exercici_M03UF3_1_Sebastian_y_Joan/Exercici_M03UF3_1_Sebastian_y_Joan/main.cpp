@@ -10,6 +10,5 @@ void main() {
 
 	pantallaInicio(tablero, gameOver);
 
-	gamePlay(tablero, gameOver);
 
 }
