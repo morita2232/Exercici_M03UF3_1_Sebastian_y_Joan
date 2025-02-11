@@ -3,9 +3,8 @@
 #include "GamePlay.h"
 
 void pantallaInicio(char tablero[TAMAÑO_TABLERO][TAMAÑO_TABLERO], bool& gameOver) {
-
+	//creacion de variables
 	short opcio = 0;
-
 
 	bool choice = false;
 
@@ -13,6 +12,7 @@ void pantallaInicio(char tablero[TAMAÑO_TABLERO][TAMAÑO_TABLERO], bool& gameOver
 
 	std::ifstream loadFile(nombreArchivo + ".tictacsave");
 
+	//codigo del menu
 	do {
 
 		gameOver = false;
@@ -29,7 +29,7 @@ void pantallaInicio(char tablero[TAMAÑO_TABLERO][TAMAÑO_TABLERO], bool& gameOver
 
 		std::cout << "Tria una opcio (EN NUMEROS ENTRE EL 1 Y EL 3): ";
 		std::cin >> opcio;
-
+		//Escoger una opcion del menu
 		switch (opcio) {
 		case 1:
 			std::cout << std::endl;
@@ -41,10 +41,11 @@ void pantallaInicio(char tablero[TAMAÑO_TABLERO][TAMAÑO_TABLERO], bool& gameOver
 
 			gameOver = false;
 
+			//inicializacion del tablero
 			createTablero(tablero);
 
 			renderTablero(tablero);
-
+			//Turnos del gameplay
 			gamePlay(tablero, gameOver);
 
 			choice = true;
@@ -67,19 +68,21 @@ void pantallaInicio(char tablero[TAMAÑO_TABLERO][TAMAÑO_TABLERO], bool& gameOver
 
 			std::cout << std::endl;	
 
+			//debug de inputs
 			if (nombreArchivo == "menu" || nombreArchivo == "Menu" || nombreArchivo == "MENU") {
 				system("cls");
 				pantallaInicio(tablero,gameOver);
 			}
 			else {
 				do {
+					//abrimos el archivo escogido
 					loadFile.open(nombreArchivo + ".tictacsave");
 					if (loadFile.is_open()) {
 						std::cout << "Cargando partida: " << nombreArchivo << std::endl;
 
 						system("pause");
 						system("cls");
-
+						//inicializamos un tablero vacio para rellenarlo
 						createTablero(tablero);
 
 						int j = 0;
@@ -93,7 +96,7 @@ void pantallaInicio(char tablero[TAMAÑO_TABLERO][TAMAÑO_TABLERO], bool& gameOver
 
 						loadFile.close();
 						renderTablero(tablero);
-
+						//Seguir la partida guardada con el siguiente turno
 						gamePlay(tablero, gameOver);
 
 						choice = true;
@@ -110,7 +113,7 @@ void pantallaInicio(char tablero[TAMAÑO_TABLERO][TAMAÑO_TABLERO], bool& gameOver
 			break;
 
 		case 3:
-
+			//cerrar el juego
 			std::cout << std::endl;
 
 			std::cout << "Adeu!" << std::endl;

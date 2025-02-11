@@ -1,7 +1,7 @@
 #include "GamePlay.h"
 #include "Inicio.h"
 
-
+//funcion de inicilizacion del tablero vacio
 void createTablero(char tablero[TAMAÑO_TABLERO][TAMAÑO_TABLERO]) {
     for (int i = 0; i < TAMAÑO_TABLERO; i++) {
         for (int j = 0; j < TAMAÑO_TABLERO; j++) {
@@ -10,7 +10,7 @@ void createTablero(char tablero[TAMAÑO_TABLERO][TAMAÑO_TABLERO]) {
     }
 }
 
-
+//funcion de renderizado de tablero
 void renderTablero(char tablero[TAMAÑO_TABLERO][TAMAÑO_TABLERO]) {
     for (int i = 0; i < TAMAÑO_TABLERO; i++) {
         std::cout << "-------------\n";
@@ -23,6 +23,7 @@ void renderTablero(char tablero[TAMAÑO_TABLERO][TAMAÑO_TABLERO]) {
     
 }
 
+//funcion para comprobar tablero lleno
 void checkTablero(char tablero[TAMAÑO_TABLERO][TAMAÑO_TABLERO], bool& empate, bool& ganador) {
 
 
@@ -47,6 +48,7 @@ void checkTablero(char tablero[TAMAÑO_TABLERO][TAMAÑO_TABLERO], bool& empate, bo
 
 }
 
+//funcion para comprobar al ganador de la partida mediante un booleano, si es true es el jugador si es false es la IA
 void comprobacionVictoria(char tablero[TAMAÑO_TABLERO][TAMAÑO_TABLERO], bool& ganador) {
    /*
     int contador = 0;
@@ -123,8 +125,9 @@ void comprobacionVictoria(char tablero[TAMAÑO_TABLERO][TAMAÑO_TABLERO], bool& ga
   // }
 }
 
+//funcion de sistema de turnos
 void gamePlay(char tablero[TAMAÑO_TABLERO][TAMAÑO_TABLERO], bool& gameOver) {
-
+    //creacion variabels gameplay
     bool ganador;
     bool empate = false;
     bool eleccion_archivo = false;
@@ -133,13 +136,13 @@ void gamePlay(char tablero[TAMAÑO_TABLERO][TAMAÑO_TABLERO], bool& gameOver) {
     char sobreEscribir = 'a';
     std::string nameFile;
 
+    //incio  del bucle del juego
     while (!gameOver) {
         srand(time(NULL));
 
         input = 0;
 
-        //std::cout << TAMAÑO_TABLERO * TAMAÑO_TABLERO << std::endl;
-
+        //Logica de jugador
         std::cout << "Tu turno Jugador" << std::endl;
         std::cout << "Dame una posicion en x, y (ej. 0 2): ";
         std::cin >> posx >> posy;
@@ -151,7 +154,9 @@ void gamePlay(char tablero[TAMAÑO_TABLERO][TAMAÑO_TABLERO], bool& gameOver) {
        
         checkTablero(tablero, empate, ganador);
         
+        //Logica de IA
         if (empate != true) {
+            //randomizado de la eleccion IA
             std::cout << "La IA ya ha hecho su movimiento\n";
             posx = rand() % 3;
             posy = rand() % 3;
@@ -162,7 +167,7 @@ void gamePlay(char tablero[TAMAÑO_TABLERO][TAMAÑO_TABLERO], bool& gameOver) {
             tablero[posy][posx] = 'O';
 
 
-
+            //Guardado de patida
             while (input != 'y' && input != 'Y' && input != 'n' && input != 'N') {
                 std::cout << "Quieres guardar partida?? (Y/N)" << std::endl;
                 std::cin >> input;
@@ -225,7 +230,7 @@ void gamePlay(char tablero[TAMAÑO_TABLERO][TAMAÑO_TABLERO], bool& gameOver) {
                 }
 
                 else /*if (input == 'n' || input == 'N')*/ {
-
+                    //avance de turno
 
 
                     system("pause");
@@ -250,6 +255,7 @@ void gamePlay(char tablero[TAMAÑO_TABLERO][TAMAÑO_TABLERO], bool& gameOver) {
 
         }
         else if (empate == true) {
+            //bucle de juego en caso de no tener ganador
                 std::cout << "Empate!, reiniciando partida" << std::endl;
 
                 system("pause");

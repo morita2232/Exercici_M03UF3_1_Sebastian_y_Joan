@@ -5,8 +5,8 @@
 
 void main() {
 	char tablero[TAMAÑO_TABLERO][TAMAÑO_TABLERO];
-
-	bool gameOver = false;
+	
+	bool gameOver = false; //Booleana per al loop de joc
 
 	pantallaInicio(tablero, gameOver);
 
