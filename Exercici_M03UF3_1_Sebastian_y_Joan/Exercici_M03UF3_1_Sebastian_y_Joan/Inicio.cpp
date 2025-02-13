@@ -73,6 +73,7 @@ void pantallaInicio(char tablero[TAMAÑO_TABLERO][TAMAÑO_TABLERO], bool& gameOver
 				system("cls");
 				pantallaInicio(tablero,gameOver);
 			}
+			//una vez asegurado que guarde una nombre permitido...
 			else {
 				do {
 					//abrimos el archivo escogido
@@ -85,23 +86,26 @@ void pantallaInicio(char tablero[TAMAÑO_TABLERO][TAMAÑO_TABLERO], bool& gameOver
 						//inicializamos un tablero vacio para rellenarlo
 						createTablero(tablero);
 
+						//inciamos una variable para el eje y del tablero
 						int j = 0;
-
+						//y rellenamos el tablero vacio con los datos escogidos del archivo .save
 						while (std::getline(loadFile, caracter)) {
 							for (int i = 0; i < TAMAÑO_TABLERO; i++) {
 								tablero[j][i] = caracter[i];
 							}
 							j++;
 						}
-
+						//cerramos el archivo una vez completada la carga
 						loadFile.close();
 						renderTablero(tablero);
 						//Seguir la partida guardada con el siguiente turno
 						gamePlay(tablero, gameOver);
 
+						//cerramos el bucle de el guardado
 						choice = true;
 
 					}
+					//en caso de no encontrar un archivo con el nombre dado en el input.
 					else {
 						std::cout << "Archivo no encontrado, dame otro nombre->";
 						std::cin >> nombreArchivo;
@@ -125,7 +129,7 @@ void pantallaInicio(char tablero[TAMAÑO_TABLERO][TAMAÑO_TABLERO], bool& gameOver
 			break;
 
 		default:
-
+			//limpiara la pantalla independiente mente del caso escogido.
 			system("cls");
 		}
 	} while (!choice);
